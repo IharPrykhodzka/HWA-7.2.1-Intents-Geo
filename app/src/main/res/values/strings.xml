@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">HWA 7.2.1 Intents</string>
+    <string name="hintGeo">Введите место или координаты</string>
+    <string name="ok">OK</string>
+</resources>
