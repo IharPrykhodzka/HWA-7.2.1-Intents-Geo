@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Button btnGeo = findViewById(R.id.btnForGeo);
         btnGeo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,24 +29,48 @@ public class MainActivity extends AppCompatActivity {
 
                 String text = editText.getText().toString().trim();
 
-                try {
-                    char ch = text.charAt(0);
 
-                    if (!Character.isLetter(ch)) {
-                        Uri uri = Uri.parse("geo:" + text);
-                        intent.setData(uri);
-                    } else {
-                        Uri uri = Uri.parse("geo:?q=" + text);
-                        intent.setData(uri);
+                int len = text.length();
+                boolean number = false;
+
+                if (len == 0) {
+
+                    Toast.makeText(MainActivity.this, "Заполните строку", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    try {
+                        for (int i = 0; i < len; i++) {
+
+                            char ch = text.charAt(i);
+
+                            if (Character.isLetter(ch)) {
+                                Uri uri = Uri.parse("geo:?q=" + text);
+                                intent.setData(uri);
+                                number = false;
+                                startActivity(intent);
+                                break;
+                            }
+                            number = true;
+                        }
+                    } catch (StringIndexOutOfBoundsException e) {
+                        Toast.makeText(MainActivity.this, "Заполните строку", Toast.LENGTH_LONG).show();
                     }
 
-                    startActivity(intent);
+                    try {
+                        if (number == true) {
+                            Uri uri = Uri.parse("geo:" + text);
+                            intent.setData(uri);
+                        }
 
-                }catch (StringIndexOutOfBoundsException e) {
-                    Toast.makeText(MainActivity.this, "Заполните строку", Toast.LENGTH_LONG).show();
+                        startActivity(intent);
+
+                    } catch (StringIndexOutOfBoundsException e) {
+                        Toast.makeText(MainActivity.this, "Заполните строку", Toast.LENGTH_LONG).show();
+                    }
+
+
                 }
-
-
             }
         });
     }
